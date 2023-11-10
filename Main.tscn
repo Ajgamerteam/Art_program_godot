@@ -1,0 +1,192 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://image.gd" type="Script" id=1]
+[ext_resource path="res://take.gd" type="Script" id=2]
+[ext_resource path="res://Node2D.gd" type="Script" id=3]
+[ext_resource path="res://buttons/b2.png" type="Texture" id=4]
+[ext_resource path="res://buttons/b1.png" type="Texture" id=5]
+[ext_resource path="res://brush/grid.png" type="Texture" id=6]
+[ext_resource path="res://backgroundcolor.gd" type="Script" id=7]
+[ext_resource path="res://color.gd" type="Script" id=8]
+[ext_resource path="res://fonts/font.tres" type="DynamicFont" id=9]
+[ext_resource path="res://icon.png" type="Texture" id=11]
+
+[sub_resource type="ViewportTexture" id=1]
+viewport_path = NodePath("ViewportContainer/Viewport")
+
+[sub_resource type="Shader" id=3]
+code = "shader_type canvas_item;
+
+uniform float f = 2.0;
+void fragment(){
+	COLOR = texture(TEXTURE,UV,f);
+	
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 3 )
+shader_param/f = 0.918
+
+[node name="main" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -24.0
+margin_top = -31.0
+margin_right = 998.0
+margin_bottom = 613.0
+rect_scale = Vector2( 1.03748, 1.01528 )
+color = Color( 0.192157, 0.211765, 0.388235, 1 )
+
+[node name="miniview" type="Sprite" parent="."]
+position = Vector2( 250, 350 )
+scale = Vector2( 0.25, 0.25 )
+texture = SubResource( 1 )
+centered = false
+flip_v = true
+
+[node name="color" type="Node2D" parent="."]
+script = ExtResource( 8 )
+
+[node name="ViewportContainer" type="ViewportContainer" parent="."]
+margin_left = 428.0
+margin_top = 17.0
+margin_right = 940.0
+margin_bottom = 529.0
+script = ExtResource( 1 )
+
+[node name="grid" type="Sprite" parent="ViewportContainer"]
+modulate = Color( 1, 1, 1, 0.482353 )
+z_index = 1
+texture = ExtResource( 6 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 0, 0, 512, 512 )
+
+[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+size = Vector2( 512, 512 )
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="Camera2D" type="Camera2D" parent="ViewportContainer/Viewport"]
+anchor_mode = 0
+current = true
+
+[node name="canvas" type="Node2D" parent="ViewportContainer/Viewport"]
+script = ExtResource( 3 )
+current_color = Color( 0.0313726, 0.0509804, 0.54902, 1 )
+
+[node name="Sprite" type="Sprite" parent="ViewportContainer/Viewport"]
+z_index = -1
+centered = false
+
+[node name="backgroundcolor" type="Node2D" parent="ViewportContainer/Viewport"]
+z_index = -10
+script = ExtResource( 7 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+
+[node name="HSlider" type="HSlider" parent="."]
+margin_left = 282.0
+margin_top = 172.0
+margin_right = 442.0
+margin_bottom = 188.0
+rect_rotation = -90.0
+min_value = 0.1
+max_value = 2.0
+step = 0.1
+value = 0.5
+exp_edit = true
+ticks_on_borders = true
+
+[node name="MIN" type="Label" parent="HSlider"]
+margin_top = 14.0
+margin_right = 40.0
+margin_bottom = 28.0
+text = "MIN"
+
+[node name="MAX" type="Label" parent="HSlider"]
+margin_left = 132.0
+margin_top = 16.0
+margin_right = 172.0
+margin_bottom = 30.0
+text = "MAX"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Button rate" type="TextureButton" parent="."]
+margin_left = 182.0
+margin_top = 21.0
+margin_right = 214.0
+margin_bottom = 54.0
+rect_scale = Vector2( 2.19734, 2.19734 )
+texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 4 )
+
+[node name="Label" type="Label" parent="Button rate"]
+margin_left = 0.455093
+margin_top = 35.4975
+margin_right = 40.4551
+margin_bottom = 49.4975
+text = "Rate"
+
+[node name="score" type="Label" parent="."]
+margin_left = 250.0
+margin_top = 216.0
+margin_right = 290.0
+margin_bottom = 230.0
+custom_fonts/font = ExtResource( 9 )
+
+[node name="blure" type="Node2D" parent="."]
+z_index = -4096
+
+[node name="Icon" type="Sprite" parent="blure"]
+material = SubResource( 2 )
+position = Vector2( 0, -95 )
+scale = Vector2( 0.500977, 0.386767 )
+centered = false
+
+[node name="Down" type="Button" parent="."]
+margin_left = 160.0
+margin_top = 216.0
+margin_right = 428.0
+margin_bottom = 254.0
+custom_fonts/font = ExtResource( 9 )
+text = "Download"
+
+[node name="dummy" type="Sprite" parent="."]
+position = Vector2( 245, 267 )
+
+[node name="Credit" type="Label" parent="."]
+margin_left = 601.0
+margin_top = 551.0
+margin_right = 1017.0
+margin_bottom = 583.0
+custom_colors/font_color = Color( 0.054902, 1, 0, 1 )
+custom_fonts/font = ExtResource( 9 )
+text = "BY BlueBird47"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="."]
+margin_left = 211.0
+margin_top = 478.0
+margin_right = 287.0
+margin_bottom = 548.0
+icon = ExtResource( 11 )
+color = Color( 0.666667, 0.180392, 0.180392, 1 )
+
+[node name="Label" type="Label" parent="ColorPickerButton"]
+margin_top = 29.0
+margin_right = 76.0
+margin_bottom = 43.0
+text = "Color Picker"
+
+[connection signal="value_changed" from="HSlider" to="ViewportContainer/Viewport/canvas" method="_on_HSlider_value_changed"]
+[connection signal="pressed" from="Button rate" to="." method="_on_Button_rate_pressed"]
+[connection signal="pressed" from="Down" to="ViewportContainer" method="_on_Down_pressed"]
+[connection signal="color_changed" from="ColorPickerButton" to="color" method="_on_ColorPickerButton_color_changed"]
+[connection signal="pressed" from="ColorPickerButton" to="color" method="_on_ColorPickerButton_pressed"]
